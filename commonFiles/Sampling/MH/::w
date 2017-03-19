@@ -1,0 +1,38 @@
+#Script to pick an adaptitive time step for the MH algorithm
+
+#Author:Juan Garcia
+#email: jggarcia@sfu.ca
+#Date: March 10 2017
+
+
+adaptativeStepSize=function(M,Xtest,Qtest,m,sigma,alphaQtest,betaQtest,joker,logProbOld,stepSize,nSamples){
+	#nSamples to choose the number of samples to average
+	k=floor(nSamples/20) #Number of points to evaluate
+	boundaryMax=1
+	boundaryMin=0
+	acc=numeric(20)
+	for(j in 1:20){
+		for(l in 1:k){
+			aux=MHStep(M,Xtest,Qtest,m,sigma,alphaQtest,betaQtest,joker,logProbOld,stepSize)
+			temp=aux[1]
+		}
+		acc[j]=length(unique(temp))/k
+		if(acc[j]>0.4){
+			#stepSizeNew=(boundaryMax-stepSize)/2
+			#boundaryMin=stepSize
+			stepSize=stepSize*1.1;
+		}
+		if(acc[j]<0.25){
+			#stepSizeNew=(stepSize-boundaryMin)/2
+			#boundaryMax=stepSize
+			stepSize=stepSize/1.1
+		}
+		#stepSize=stepSizeNew
+		print(stepSize)
+	}
+	print('The acceptance value is:')
+	print(acc)
+	return(c(stepSize,acc)) #0.416651
+}
+		
+				
