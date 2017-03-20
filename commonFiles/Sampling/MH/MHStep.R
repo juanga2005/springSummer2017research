@@ -91,7 +91,7 @@ MHStep=function(M,Xtest,Qtest,m,sigma,alphaQtest,betaQtest,joker,logProbOld,step
 
 	#Checking that we landed in the support of the prior
 	cond1=newXtest[1]<0 || newXtest[2]<0 || newXtest[3]>0;
-	cond2=newXtest[1]>1 || newXtest[2]>3 ||newXtest[3]<(-700);
+	cond2=newXtest[1]>0.6 || newXtest[2]>3 ||newXtest[3]<(-600);
 	cond3=sum(newQtest<0)>0
 	if (cond1 || cond2 || cond3){ #This means I landed outside the support
 		logproby=-Inf
