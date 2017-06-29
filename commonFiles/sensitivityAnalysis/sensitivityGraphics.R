@@ -6,7 +6,7 @@
 data=read.csv('sensitivityParametersInfo.csv')
 data=data[,-1]
 
-jpeg('sensitivityPlot.jpg')
+jpeg('../../../../Tesis/FigChap4/sensitivityPlot.jpg',width=1600,height=1200)
 par(mfrow=c(3,3))
 
 for(k in 1:9){
