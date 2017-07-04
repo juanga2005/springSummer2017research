@@ -13,7 +13,7 @@ email: jggarcia@sfu.ca
 #define FUNCTOR_H_
 
 #include<Eigen/Dense>
-using Eigen::MatrixXf;
+using Eigen::MatrixXd;
 
 template<class T>
 class Functor{
@@ -32,38 +32,48 @@ class Functor{
 	private:
 		int n;
 		T* pT;
-		double (T::*pF)(MatrixXf);
+		double (T::*pF)(MatrixXd);
 		double (T::*pF0)(double);
-		MatrixXf (T::*gradpF) (MatrixXf); 
-		MatrixXf (T::*HF)(MatrixXf);
+		double (T::*pF2)(double,double);
+		double (T::*pFk)(MatrixXd,MatrixXd,double);
+		MatrixXd (T::*gradpF) (MatrixXd); 
+		MatrixXd (T::*HF)(MatrixXd);
 	public:
-		
 		//Initializers
 
 		//Initializer for functions f:R---->R 
-		Functor(T* pt,double (T::*pf0)(double)):pT(pt),pF0(pf0){};  		
+		//Functor(T* pt,double (T::*pf0)(double)):pT(pt),pF0(pf0){}; 
+		Functor(T* pt,double (T::*pf2)(double,double)):pT(pt),pF2(pf2){}; 
+		//Initializer for gauss kernel 		
+		Functor(T* pt,double (T::*pfk)(MatrixXd,MatrixXd,double)):pT(pt),pFk(pfk){};  		
 		//Initializer for functions f:R^{m}--->R
-		Functor(int m,T* pt,double (T::*pf)(MatrixXf)):n(m),pT(pt),pF(pf){}; 
+		Functor(int m,T* pt,double (T::*pf)(MatrixXd)):n(m),pT(pt),pF(pf){}; 
+		Functor(T* pt,double (T::*pf)(MatrixXd*)):pT(pt),pF(pf){}; 
 		//Initializer for functions f:R--->R^{m} with its derivative df:R^{m}---->R^{m}
-		Functor(int m,T* pt,double (T::*pf)(MatrixXf),MatrixXf (T::*gradpf)(MatrixXf)):n(m),pT(pt),gradpF(gradpf),pF(pf){};
+		Functor(int m,T* pt,double (T::*pf)(MatrixXd),MatrixXd (T::*gradpf)(MatrixXd)):n(m),pT(pt),gradpF(gradpf),pF(pf){};
 		//Initialization with the Hessian included
-		Functor(int m,T* pt,double (T::*pf)(MatrixXf),MatrixXf (T::*gradpf)(MatrixXf),MatrixXf(T::*hf)(MatrixXf)):n(m),pT(pt),gradpF(gradpf),pF(pf),HF(hf){};
+		Functor(int m,T* pt,double (T::*pf)(MatrixXd),MatrixXd (T::*gradpf)(MatrixXd),MatrixXd(T::*hf)(MatrixXd)):n(m),pT(pt),gradpF(gradpf),pF(pf),HF(hf){};
 
 
 		
 		
 		//Overloading ()
-		
+		double operator()(MatrixXd x1,MatrixXd x2,double l)const{
+			return (pT->*pFk)(x1,x2,l);
+		}	
 		//overloading for f:R---->R
 		double operator()(double x)const{
 			return (pT->*pF0)(x);
 		}
+		double operator()(double x,double l)const{
+			return (pT->*pF2)(x,l);
+		}
 		//overloading for f:R^{m}---->R
-		double operator()(MatrixXf x)const{
-			return (pT->*pF)(x);
+		double operator()(MatrixXd* x)const{
+			return (pT->*pF)(*x);
 		}
 		//overloading for f:R^{m}--->R^{m}
-		MatrixXf operator()(MatrixXf x,int der)const{
+		MatrixXd operator()(MatrixXd x,int der)const{
 			//der is the derivative number
 			switch(der){
 				case 1: return (pT->*gradpF)(x);
