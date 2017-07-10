@@ -10,7 +10,7 @@
 
 
 library(DiceKriging)
-Data=read.csv('../commonData/parameterTableScaled.csv') #This is the file where all the info about the parameter is
+Data=read.csv('../../Source1/inputOutputTableSource1.csv') #This is the file where all the info about the parameter is
 Data=Data[,-1]
 
 

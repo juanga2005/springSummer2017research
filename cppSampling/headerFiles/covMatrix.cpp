@@ -8,7 +8,7 @@
 
 *Email: jggarcia@sfu.ca
 
-*Last Modified: mar 04 jul 2017 13:22:38 PDT
+*Last Modified: lun 10 jul 2017 01:55:50 PDT
 
 *Purpose: Contains all the methods of the header covMatrix.h
 
@@ -18,11 +18,11 @@
 
 #include "covMatrix.h"
 #include<Eigen/Dense>
-
+#include<iostream>
 using Eigen::MatrixXd;
+using namespace std;
 
-
-MatrixXd covMatrix::distances(const MatrixXd &Xtrain,const MatrixXd& Xtest){
+MatrixXd covMatrix::distances(const MatrixXd &Xtrain,const MatrixXd &Xtest){
 	/**
 	Calculates the distance between the training and test set.
 	
@@ -35,7 +35,6 @@ MatrixXd covMatrix::distances(const MatrixXd &Xtrain,const MatrixXd& Xtest){
 	  the i-th training point with the j-th test point
 
 	 **/
-
 	int n=Xtrain.rows(), d=Xtrain.cols();
 	int t=Xtest.rows();
 	//Creating the distance matrix

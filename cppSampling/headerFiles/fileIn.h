@@ -8,7 +8,7 @@
 
 *Email: jggarcia@sfu.ca
 
-*Last Modified: mar 04 jul 2017 14:46:21 PDT
+*Last Modified: dom 09 jul 2017 22:09:59 PDT
 
 *Purpose: Script to read data from .txt files
 
@@ -22,20 +22,23 @@
 
 #include<vector>
 #include<string>
+#include<Eigen/Dense>
 using std::vector;using std::string;
-
+using Eigen::MatrixXd;
 
 class fileIn{
 
 	private:
-		vector<vector<double>>v;
+		vector<vector<double> >v;
 		void tokenizer(const string& str,vector<string>& tokens);
+		const char* Fname;
 	public:
 		fileIn(const char* fname);
 		~fileIn(){};
 		int getVNRows(){return v.size();}
 		int getVLength(int i){return v[i].size();}
 		double getV(int i, int j){return v[i][j];}
+		MatrixXd data2mat();
 		
 };
 

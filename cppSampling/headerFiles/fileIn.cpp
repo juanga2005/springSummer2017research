@@ -8,7 +8,7 @@
 
 *Email: jggarcia@sfu.ca
 
-*Last Modified: mar 04 jul 2017 14:58:17 PDT
+*Last Modified: lun 10 jul 2017 01:18:59 PDT
 
 *Purpose: Methods of the header fileIn.h
 
@@ -19,14 +19,14 @@
 #include"fileIn.h"
 #include<fstream>
 #include<iostream>
-
+#include<cstdlib>
 using std::string; using std::vector;using std::cout;using std::endl; using std::ifstream;
 
 
 fileIn::fileIn(const char* fname){
 	vector<string> words;
 	string line;
-
+	this->Fname=fname;
 	ifstream in(fname);
 
 	if(in.is_open()){
@@ -52,7 +52,7 @@ fileIn::fileIn(const char* fname){
 
 
 void fileIn::tokenizer(const string& str,vector<string>& tokens){
-	string delimiters=" ";
+	string delimiters=",";
 	//Skip delimiters at the begining
 	string::size_type lastPos=str.find_first_not_of(delimiters,0);
 	//Find the end of the first token
@@ -69,4 +69,29 @@ void fileIn::tokenizer(const string& str,vector<string>& tokens){
 		//find end of token or start of next delimiter
 		pos=str.find_first_of(delimiters,lastPos);
 	}
+}
+
+MatrixXd fileIn::data2mat(){
+	/**
+	Function that changes data into a MatrixXd object
+
+	Input:
+	*fname: an string containing the name of the file to be transformed
+	
+	Output:
+	A MatrixXd element with the data in fname in it
+	**/
+
+		
+	int n=this->getVNRows();//Number of rows
+	int m=this->getVLength(1);//Number of columns
+	
+	MatrixXd output(n,m);
+
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			output(i,j)=this->getV(i,j);
+		}
+	}
+	return output;
 }
