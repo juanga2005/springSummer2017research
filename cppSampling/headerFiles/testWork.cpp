@@ -8,7 +8,7 @@
 
 *Email: jggarcia@sfu.ca
 
-*Last Modified: lun 10 jul 2017 01:56:27 PDT
+*Last Modified: lun 10 jul 2017 19:17:56 PDT
 
 *Purpose:Script to test what I do
 
@@ -26,6 +26,7 @@
 #include<ctime>
 #include"fileIn.h"
 #include"model.h"
+#include"auxF.h"
 using namespace std;
 using Eigen::MatrixXd;
 using Eigen::LLT;
@@ -85,17 +86,24 @@ int main(){
 //
 	model mod("../dataFiles/S1/");
 	double* param=new double[2];
-	param[0]=0.25;param[1]=0.2e-9;
+	param[0]=0.25;param[1]=0;
 	MatrixXd K=mod.create("XS1L1.csv",param);
 
 	//cout<<mmm<<endl;
 	fileIn Xt("../dataFiles/S1/XS1L1.csv");
 	fileIn yt("../dataFiles/S1/yS1L1.csv");
 	
-	MatrixXd Xtrain=Xt.data2mat();
+	MatrixXd Xtrainmap=Xt.data2mat();
 	MatrixXd ytrain=yt.data2mat();	
-	MatrixXd Xtest(1,3); Xtest<<0.1,0.2,-20;
-	MatrixXd k=C.covariance(Xtrain,Xtest,0.1,0);
+	auxF stupid;
+	MatrixXd Xtrain=stupid.dom2cube(Xtrainmap);
+	MatrixXd Xtest(1,3); Xtest<<0.771,0.34417,0;
+	cout<<Xtest<<endl;
+	MatrixXd dist=C.distances(Xtrain,Xtest);
+	//cout<<dist<<endl;
+	MatrixXd k=C.covariance(Xtrain,Xtest,param[0],param[1]);
+	MatrixXd KK=C.covariance(Xtrain,Xtrain,param[0],param[1]);
+	//cout<<KK<<endl;
 	//cout<<K.rows()<<endl;
 	//cout<<ytrain.rows()<<endl;
 	double p=C.predict(K,k,ytrain);
