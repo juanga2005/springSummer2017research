@@ -1,7 +1,7 @@
 #Script to set alpha
-
-source('unitConverter.R')
-source('quantileGamma.R')
+path='~/Documents/SFU_files/Research/springSummer2017research/commonFiles/Sampling/'
+source(paste(path,'unitConverter.R',sep=''))
+source(paste(path,'quantileGamma.R',sep=''))
 setAlpha=function(quantile,n){
 	
 

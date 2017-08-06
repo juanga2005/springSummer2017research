@@ -6,16 +6,17 @@
 
 #Modifications:
 	#Vectorize the shit out of this
-
-source('gpCreator.R');
-source('gpPredict.R')
+path='~/Documents/SFU_files/Research/springSummer2017research/commonFiles/GP/'
+source(paste(path,'gpCreator.R',sep=''));
+source(paste(path,'gpPredict.R',sep=''))
 
 
 gpColCreator=function(col){
 	#Xtrain is the training set 
 	#Creates a column with the km object for the column col
 	#gpCol is a list with a gp in each of its entries
-	dir=paste('../../Source',col,'/inputOutputTableSource',col,'.csv',sep='')
+	path2='~/Documents/SFU_files/Research/springSummer2017research/'
+	dir=paste(path2,'Source',col,'/inputOutputTableSource',col,'.csv',sep='')
 	Xtrain=read.csv(dir);Xtrain=Xtrain[,-1]
 	gpCol=list();
 	for(k in 1:9){

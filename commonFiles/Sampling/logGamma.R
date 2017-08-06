@@ -14,4 +14,5 @@ logGamma=function(x,alpha,beta){
 	aux4=log(gamma(alpha))
 
 	return(aux1+aux2-aux3-aux4)
+
 }

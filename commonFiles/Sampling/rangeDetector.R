@@ -6,9 +6,10 @@
 
 #Modifications:
 
-
-datos=read.table('../commonData/design64ThreeVar.txt')
-source('unitConverter.R')
+path='~/Documents/SFU_files/Research/springSummer2017research/commonFiles/commonData/design64ThreeVar.txt'
+path2='~/Documents/SFU_files/Research/springSummer2017research/commonFiles/Sampling/unitConverter.R'
+datos=read.table(path)
+source(path2)
 rangeDetector=function(){
 
 	#param are the parameters whose range is going to be measured
@@ -18,13 +19,13 @@ rangeDetector=function(){
 		
 	rango=c(0,0)
 	qmin=c(0,0,0,0)
-	qmax=c(unitConverter(105),unitConverter(240),unitConverter(15),unitConverter(15))#Choosing the range in q
-	pmax=c(10,20)	
+	qmax=c(unitConverter(140),unitConverter(320),unitConverter(80),unitConverter(80))#Choosing the range in q
+	pmax=c(0.6,3)	
 	for(k in 1:7){
 		if(k<=3){
 			
 			if(k==3){
-				rango=rbind(rango,c(-2000,0))
+				rango=rbind(rango,c(-600,0))
 			}
 			else{
 				

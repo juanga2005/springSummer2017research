@@ -9,27 +9,26 @@ quantileGamma=function(quantile,q0,n){
 
 	#initial guest
 	
-	alpha0=2000
+	alpha0=20
 	alpha1=1.001
-	diff=abs(qgamma(quantile,alpha0,scale=q0/(alpha0-1))-n*q0)
+	diff=abs(qgamma(quantile,alpha0,(alpha0-1)/q0)-n*q0)
 	
 	#Parameters for the algorithm
-	tol=1e-6
-	max_iter=1000
+	tol=1e-15
+	max_iter=10000
 	n_iter=1
 
 	while(diff>=tol & max_iter>n_iter){
 		
 		c=(alpha0+alpha1)/2
-		p1=(qgamma(quantile,alpha0,scale=q0/(alpha0-1))-n*q0)*
-			(qgamma(quantile,c,scale=q0/(c-1))-n*q0)
+		p1=(qgamma(quantile,alpha0,(alpha0-1)/q0)-n*q0)*
+			(qgamma(quantile,c,(c-1)/q0)-n*q0)
 		
 		
 		 #p2=(qgamma(quantile,alpha1,scale=q0/(alpha1-1))-n*q0)*
-			(qgamma(quantile,c,scale=q0/(c-1))-n*q0)
+			#(qgamma(quantile,c,(c-1)/q0)-n*q0)
 
-		if(p1<0){
-			
+		if(p1<0){	
 			alpha1=c
 		}
 		else{
@@ -37,7 +36,7 @@ quantileGamma=function(quantile,q0,n){
 			
 		}					
 
-		diff=abs(qgamma(quantile,c,scale=q0/(c-1))-n*q0)
+		diff=abs(qgamma(quantile,c,(c-1)/q0)-n*q0)
 		n_iter=n_iter+1
 	}
 	return(c)

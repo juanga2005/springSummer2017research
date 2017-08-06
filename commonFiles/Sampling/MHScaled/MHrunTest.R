@@ -28,23 +28,23 @@ Qtest=c(unitConverter(35),unitConverter(80),unitConverter(5),unitConverter(5))
 m=zinc()
 
 #sigma=5.68e-6
-sigma=0.5*5.68984e-6
+sigma=1.68984e-6
 #sigma=2.1e-7
 alphaQtest=setAlpha(0.99,3)
 betaQtest=(alphaQtest-1)/Qtest
 joker=1
 logProbOld=0
 
-lAux=sapply(c(35,80,5,5),unitConverter);ppp=0.004
+lAux=sapply(c(35,80,5,5),unitConverter);ppp=0.0004
 #stepSize=diag(c(0.11,0.1,150,1e-5,1e-5,1e-5,1e-5),7); #The covariance matrix to choose the step size
 #stepSize=diag(c(0.06,0.03,6,1e-5,1e-5,1e-6,1e-6),7); #The covariance matrix to choose the step size
 #stepSize=diag(c(0.2,0.8,150,4e-7,4e-7,4e-8,4e-8),7); #The covariance matrix to choose the step size
 #stepSize=diag(c(0.11,0.8,150,8e-7,1e-6,1e-7,1e-7),7); #The covariance matrix to choose the step size
-stepSize=diag(c(0.15,0.8,150,lAux[1]*ppp,lAux[2]*ppp,lAux[3]*ppp,lAux[4]*ppp),7); #The covariance matrix to choose the step size
+stepSize=diag(c(0.15,0.8,150,lAux[1]*ppp,lAux[2]*ppp,lAux[3]*0.02,lAux[4]*0.02),7); #The covariance matrix to choose the step size
 
 #source('./MHStep.R')
 ##Main loop
-nSamples=5000
+nSamples=150000
 samples=matrix(0,nrow=nSamples,ncol=7) #Samples for each variable are going to be store in each column
 nn=0
 setwd('./MH')
@@ -69,13 +69,13 @@ for(k in 1:nSamples){
 	samples[k,1:3]=Xtest
 	samples[k,4:7]=Qtest
 	#Check\ing if necessary to change the step size
-	donde=1000
+	donde=1500
 	if(k%%donde==0){	
 		
 		print(k)
 		acc=length(unique(samples[(k-(donde-1)):k,1]))/donde
 		print(acc)
-		Sys.sleep(.1)
+		Sys.sleep(1)
 		if(acc<0.1 || acc>0.6){
 			#print('entre porque acc<0.2 or acc>0.4')
 			#for (j in 1:7){
@@ -87,7 +87,7 @@ for(k in 1:nSamples){
 	
 	
 }	
-write.csv(samples,'testwice5e6.csv')	
+write.csv(samples,'test2.csv')	
 print("Ending the process at ")
 print(Sys.time());final=Sys.time()
 print("The time taken to complete the simulation was ")

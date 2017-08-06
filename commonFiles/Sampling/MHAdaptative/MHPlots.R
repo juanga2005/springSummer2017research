@@ -8,7 +8,7 @@
 
 #Email: jggarcia@sfu.ca
 
-#Last Modified: vie 04 ago 2017 14:24:04 PDT
+#Last Modified: sáb 05 ago 2017 13:10:17 PDT
 
 #Purpose: Plotting the results from the MH
 
@@ -20,7 +20,7 @@ source('../unitConverter.R')
 source('../kg2Ton.R')
 source('../setAlpha.R')
 #datos=read.csv('oneMillionSamplesnr10.csv');datos=datos[,-1]
-datos=read.csv('test5e6.csv');datos=datos[,-1]
+datos=read.csv('sigma2.84492e-06.csv');datos=datos[,-1]
 #datos=read.csv('oneMillionSamples2.csv');datos=datos[,-1]
 names(datos)=c('gamma','z0','L','q1','q2','q3','q4')
 n=dim(datos)[1]

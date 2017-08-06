@@ -7,7 +7,8 @@
 #Modifications:
 	#Vectorize the shit out of this
 
-source('gpColCreator.R')
+path='~/Documents/SFU_files/Research/springSummer2017research/commonFiles/GP/'
+source(paste(path,'gpColCreator.R',sep=''))
 
 		
 

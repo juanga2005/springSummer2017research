@@ -4,7 +4,8 @@
 #email:jggarcia@sfu.ca
 #Date: March 9 2017
 
-source('gpPredict.R')
+path='~/Documents/SFU_files/Research/springSummer2017research/commonFiles/GP/'
+source(paste(path,'gpPredict.R',sep=''));
 
 
 gpMatrixPredict=function(M,Xtest){

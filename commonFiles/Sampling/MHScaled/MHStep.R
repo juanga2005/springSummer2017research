@@ -5,21 +5,13 @@ library('MASS') #To produce multivariate normal distributions
 #Author: Juan Garcia
 #email: jggarcia@sfu.ca
 #date: March 9 2017
-#setwd('../../GP')
-#source('gpCreator.R')
-#source('gpPredict.R')
-#source('gpColCreator.R')
-#source('gpColPredict.R')
-#source('gpMatrixCreator.R')
-#source('gpMatrixPredict.R')
-#setwd('../Sampling')
-#source('logGamma.R')
-#source('loglike.R')
-#setwd('./MH')
+
+
+
 MHStep=function(M,Xtest,Qtest,m,sigma,alphaQtest,betaQtest,joker,logProbOld,stepSize){
 	#M is a list with 4x9(i.e. transposed) km elements
-	#Xtest is the point where to test in parameter space
-	#Qtest is the point in the source space where to test
+	#Xtest is the point where to test in parameter space in  
+	#Qtest is the point in the source space where to test in 
 	#m are the zinc measurements
 	#sigma is the variance of the noise
 	#alphaQtest are the values for alpha for the gammas in Qtest
@@ -46,7 +38,7 @@ MHStep=function(M,Xtest,Qtest,m,sigma,alphaQtest,betaQtest,joker,logProbOld,step
 	}
 
 	#Moving into the unit square
-	#XQunit=pushForward(Xtest,Qtest)
+	XQunit=pushForward(Xtest,Qtest)
 
 	#Proposing a step
 
@@ -59,13 +51,17 @@ MHStep=function(M,Xtest,Qtest,m,sigma,alphaQtest,betaQtest,joker,logProbOld,step
 
 
 	
-	newQtest=Qtest+mvrnorm(1,mu=rep(0,4),Sigma=stepSize[4:7,4:7])
+	#newQtest=Qtest+mvrnorm(1,mu=rep(0,4),Sigma=stepSize[4:7,4:7])
 	u1=runif(1,-stepSize[1,1],stepSize[1,1])
-	u2=runif(1,-stepSize[2,2],stepSize[2,2])
 	u3=runif(1,-stepSize[3,3],stepSize[3,3])
+	u2=runif(1,-stepSize[2,2],stepSize[2,2])
+	u4=runif(1,-stepSize[4,4],stepSize[4,4])
+	u5=runif(1,-stepSize[5,5],stepSize[5,5])
+	u6=runif(1,-stepSize[6,6],stepSize[6,6])
+	u7=runif(1,-stepSize[7,7],stepSize[7,7])
 
 
-	newXtest=Xtest+c(u1,u2,u3)
+	newXQ=XQunit+c(u1,u2,u3,u4,u5,u6,u7)
 	#param=c(Xtest,Qtest)
 	#newParam=param+mvrnorm(1,mu=rep(0,7),Sigma=stepSize)
 	#newXtest=newParam[1:3]
@@ -74,9 +70,9 @@ MHStep=function(M,Xtest,Qtest,m,sigma,alphaQtest,betaQtest,joker,logProbOld,step
 #	newXtest=Xtest+c(rnorm(1,0,0.2*stepSize),rnorm(1,0,1*stepSize),rnorm(1,0,100*stepSize))
 #	newQtest=Qtest+c(rnorm(1,0,0.003329528*stepSize),rnorm(1,0,0.00761035*stepSize),rnorm(2,0,0.0004756469*stepSize))
 	#Going back
-	#XQunzip=pullBack(newXtest,newQtest)
-	#newXtest=XQunzip[1:3]
-	#newQtest=XQunzip[4:7]
+	XQunzip=pullBack(newXQ[1:3],newXQ[4:7])
+	newXtest=XQunzip[1:3]
+	newQtest=XQunzip[4:7]
 
 
 

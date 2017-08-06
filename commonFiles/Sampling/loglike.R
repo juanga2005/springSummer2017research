@@ -12,9 +12,9 @@
 #Xtest is the point where to evaluate the matrix 
 #Qtest is the point in the Q space where we evaluate the matrix vector product
 #m are the 9 zinc measurements
-
-
-setwd('../GP')
+pp='~/Documents/SFU_files/Research/springSummer2017research/commonFiles/'
+files=list.files(path=paste(pp,'GP/',sep=''),pattern='.*R',full.names=T);files=files[-(7:8)]
+sapply(files,source,.GlobalEnv)
 #source('../GP/gpCreator.R')
 #source('../GP/gpPredict.R')
 #source('../GP/gpColCreator.R')
@@ -29,11 +29,9 @@ loglike=function(M,Xtest,Qtest,m,sigma){
 	#Qtest gives the coordinates where to evaluate the sources
 	#m are the experimental measures	
 	#Output: -\|m-qstar*A(x)q\|^2
-	getwd()
 	A=gpMatrixPredict(M,Xtest)
 	e=m-0.0206*A%*%Qtest
 	norma=sum(e^2)
 	aux=-9/2*log(2*pi)-9*log(sigma)
 	return(-0.5*norma/sigma^2+aux)
 }
-setwd('../Sampling')

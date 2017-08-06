@@ -1,6 +1,6 @@
 #Script to train the GP for the whole matrix
-
-source('gpColCreator.R')
+path='~/Documents/SFU_files/Research/springSummer2017research/commonFiles/GP/'
+source(paste(path,'gpColCreator.R',sep=''))
 
 #Author: Juan Gabriel Garcia
 #March 9 2017
@@ -15,4 +15,5 @@ gpMatrixCreator=function(){
 	M3=gpColCreator(3)
 	M4=gpColCreator(4)
 	M=list(M1,M2,M3,M4)
+	return(M)
 }	
