@@ -9,7 +9,7 @@ source('gpColCreator.R')
 source('gpColPredict.R')
 source('gpMatrixCreator.R')
 source('gpMatrixPredict.R')
-#M=gpMatrixCreator()
+M=gpMatrixCreator()
 #Initial location
 
 
@@ -33,22 +33,23 @@ sigma=5.68984e-6
 #sigma=2.1e-7
 alphaQtest=setAlpha(0.99,3)
 betaQtest=(alphaQtest-1)/Qtest
-joker=1
-logProbOld=0
 
 setwd('./MHAdaptative')
 source('MHStep.R')
 source('adaptativeStepSize.R')
 source('lengthFinder.R')
 
-#sigmas=c(0.1*sigma,0.5*sigma,2*sigma,10*sigma)
+#sigmas=c(0.1*sigma,0.5*sigma,sigma,2*sigma,10*sigma)
+sigmas=c(sigma,0.5*sigma,0.1*sigma)
 
 
-#for(sigma in sigmas){
+for(sigma in sigmas){
 
+	joker=1
+	logProbOld=0
 	#source('./MHStep.R')
 	##Main loop
-	nSamples=15000
+	nSamples=250000
 	samples=matrix(0,nrow=nSamples,ncol=7) #Samples for each variable are going to be store in each column
 	unitSamples=matrix(0,nrow=nSamples,ncol=7)
 	nn=0
@@ -60,9 +61,11 @@ source('lengthFinder.R')
 	print('Starting the process at ');inicio=Sys.time()
 	print(inicio);print(paste('for the value of sigma =',sigma))
 	for(k in 1:nSamples){
-		covOldUnit=cov(t(unitSamples))
 		if(k<=14){
 			covOldUnit=0
+		}
+		else{
+			covOldUnit=cov(unitSamples[1:k,])	
 		}
 		aux=MHStep(M,Xtest,Qtest,m,sigma,alphaQtest,betaQtest,joker,logProbOld,k,covOldUnit)
 		#updating
@@ -74,13 +77,12 @@ source('lengthFinder.R')
 		samples[k,4:7]=Qtest
 		unitSamples[k,]=pushForward(Xtest,Qtest)
 		#Check\ing if necessary to change the step size
-		donde=500
+		donde=5000
 		if(k%%donde==0){	
 			
 			print(k)
-			acc=length(unique(samples[(k-(donde-1)):k,1]))/donde
+			acc=dim(unique(samples[(k-(donde-1)):k,]))[1]/donde
 			print(acc)
-			Sys.sleep(.1)
 			#if(acc<0.15 || acc>0.35){
 		#		stepSize=adaptativeStepSize(M,Xtest,Qtest,m,sigma,alphaQtest,betaQtest,joker,logProbOld,stepSize,500)
 			#}
@@ -93,4 +95,4 @@ source('lengthFinder.R')
 	print(Sys.time());final=Sys.time()
 	print("The time taken to complete the simulation was ")
 	print(final-inicio)
-#}
+}

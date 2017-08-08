@@ -8,7 +8,7 @@
 
 #Email: jggarcia@sfu.ca
 
-#Last Modified: sáb 05 ago 2017 13:10:17 PDT
+#Last Modified: lun 07 ago 2017 14:16:34 PDT
 
 #Purpose: Plotting the results from the MH
 
@@ -20,13 +20,17 @@ source('../unitConverter.R')
 source('../kg2Ton.R')
 source('../setAlpha.R')
 #datos=read.csv('oneMillionSamplesnr10.csv');datos=datos[,-1]
-datos=read.csv('sigma2.84492e-06.csv');datos=datos[,-1]
+#datos=read.csv('sigmaTestcsv');datos=datos[,-1]
+#datos=read.csv('sigma1.137968e-05.csv');datos=datos[,-1]
+datos=read.csv('sigma5.68984e-05.csv');datos=datos[,-1]
 #datos=read.csv('oneMillionSamples2.csv');datos=datos[,-1]
 names(datos)=c('gamma','z0','L','q1','q2','q3','q4')
 n=dim(datos)[1]
 #afterB=datos[(n/2):n,]#After burn data
 #afterB=datos[(n/2):n,]#After burn data
-afterB=datos
+thin=seq(1,n,by=20)
+afterB=datos[thin,]
+#afterB=datos
 #plotting the trace plots
 
 l=1.5

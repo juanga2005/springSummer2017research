@@ -44,7 +44,7 @@ MHStep=function(M,Xtest,Qtest,m,sigma,alphaQtest,betaQtest,joker,logProbOld,nite
 	XQunit=pushForward(Xtest,Qtest)
 
 	#########Introducing the proporsal distribution #################################################
-	beta=0.01
+	beta=0.05
 	if(niter<=14){
 		covM=(0.1)^2*diag(rep(1,7),7)/7
 		media=XQunit	
